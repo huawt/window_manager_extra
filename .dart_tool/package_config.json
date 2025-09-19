@@ -1,0 +1,251 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "args",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/args-2.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "async",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/async-2.11.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "boolean_selector",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/boolean_selector-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "build_config",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/build_config-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "characters",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/characters-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "checked_yaml",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/checked_yaml-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "clock",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/clock-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "collection",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/collection-1.18.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "dependency_validator",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/dependency_validator-3.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "fake_async",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/fake_async-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "file",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/file-7.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "flutter",
+      "rootUri": "file:///Users/huawt/Flutter/FlutterSDK/flutter/packages/flutter",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "flutter_test",
+      "rootUri": "file:///Users/huawt/Flutter/FlutterSDK/flutter/packages/flutter_test",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "glob",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/glob-2.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "io",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/io-1.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/json_annotation-4.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "leak_tracker",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/leak_tracker-10.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "leak_tracker_flutter_testing",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/leak_tracker_flutter_testing-3.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "leak_tracker_testing",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/leak_tracker_testing-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "lints",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/lints-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/logging-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "matcher",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/matcher-0.12.16+1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "material_color_utilities",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/material_color_utilities-0.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "meta",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/meta-1.12.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "mostly_reasonable_lints",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/mostly_reasonable_lints-0.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "package_config",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/package_config-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "path",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/path-1.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "pub_semver",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/pub_semver-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "pubspec_parse",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/pubspec_parse-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "sky_engine",
+      "rootUri": "file:///Users/huawt/Flutter/FlutterSDK/flutter/bin/cache/pkg/sky_engine",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "source_span",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/source_span-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "stack_trace",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/stack_trace-1.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "stream_channel",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/stream_channel-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "string_scanner",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/string_scanner-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "term_glyph",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/term_glyph-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "test_api",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/test_api-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "vector_math",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/vector_math-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "vm_service",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/vm_service-14.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "yaml",
+      "rootUri": "file:///Users/huawt/.pub-cache/hosted/mirrors.tuna.tsinghua.edu.cn%2547dart-pub%2547/yaml-3.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "window_manager_extra",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    }
+  ],
+  "generated": "2025-09-19T07:57:23.884216Z",
+  "generator": "pub",
+  "generatorVersion": "3.4.4",
+  "flutterRoot": "file:///Users/huawt/Flutter/FlutterSDK/flutter",
+  "flutterVersion": "3.22.3",
+  "pubCache": "file:///Users/huawt/.pub-cache"
+}
