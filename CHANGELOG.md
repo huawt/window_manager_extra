@@ -1,3 +1,7 @@
+### 0.5.1
+
+* fix: same bug
+
 ### 0.5.0
 
 * feat: Add `getId` method for retrieving window ID on macOS and Windows

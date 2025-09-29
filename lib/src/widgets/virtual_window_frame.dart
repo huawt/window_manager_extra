@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:window_manager_extra/src/resize_edge.dart';
 import 'package:window_manager_extra/src/widgets/drag_to_resize_area.dart';
 import 'package:window_manager_extra/src/window_listener.dart';
-import 'package:window_manager_extra/src/window_manager.dart';
+import 'package:window_manager_extra/src/window_manager_extra.dart';
 
 final _kIsLinux = !kIsWeb && Platform.isLinux;
 final _kIsWindows = !kIsWeb && Platform.isWindows;

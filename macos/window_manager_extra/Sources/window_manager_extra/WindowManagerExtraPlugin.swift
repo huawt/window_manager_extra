@@ -1,10 +1,10 @@
 import Cocoa
 import FlutterMacOS
 
-public class WindowManagerPlugin: NSObject, FlutterPlugin {
+public class WindowManagerExtraPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "window_manager", binaryMessenger: registrar.messenger)
-        let instance = WindowManagerPlugin(registrar, channel)
+        let channel = FlutterMethodChannel(name: "window_manager_extra", binaryMessenger: registrar.messenger)
+        let instance = WindowManagerExtraPlugin(registrar, channel)
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -18,7 +18,7 @@ public class WindowManagerPlugin: NSObject, FlutterPlugin {
     }
     
     private var _inited: Bool = false
-    private var windowManager: WindowManager = WindowManager()
+    private var windowManagerExtra: WindowManagerExtra = WindowManagerExtra()
     
     public init(_ registrar: FlutterPluginRegistrar, _ channel: FlutterMethodChannel) {
         super.init()
@@ -28,8 +28,8 @@ public class WindowManagerPlugin: NSObject, FlutterPlugin {
     
     private func ensureInitialized() {
         if (!_inited) {
-            windowManager.mainWindow = mainWindow
-            windowManager.onEvent = {
+            windowManagerExtra.mainWindow = mainWindow
+            windowManagerExtra.onEvent = {
                 (eventName: String) in
                 self._emitEvent(eventName)
             }
@@ -47,221 +47,221 @@ public class WindowManagerPlugin: NSObject, FlutterPlugin {
             result(true)
             break
         case "waitUntilReadyToShow":
-            windowManager.waitUntilReadyToShow()
+            windowManagerExtra.waitUntilReadyToShow()
             result(true)
             break
         case "getId":
-            result(windowManager.getId())
+            result(windowManagerExtra.getId())
             break
         case "setAsFrameless":
-            windowManager.setAsFrameless()
+            windowManagerExtra.setAsFrameless()
             result(true)
             break
         case "destroy":
-            windowManager.destroy()
+            windowManagerExtra.destroy()
             result(true)
             break
         case "close":
-            windowManager.close()
+            windowManagerExtra.close()
             result(true)
             break
         case "isPreventClose":
-            result(windowManager.isPreventClose())
+            result(windowManagerExtra.isPreventClose())
             break
         case "setPreventClose":
-            windowManager.setPreventClose(args)
+            windowManagerExtra.setPreventClose(args)
             result(true)
             break
         case "focus":
-            windowManager.focus()
+            windowManagerExtra.focus()
             result(true)
             break
         case "blur":
-            windowManager.blur()
+            windowManagerExtra.blur()
             result(true)
             break
         case "isFocused":
-            result(windowManager.isFocused())
+            result(windowManagerExtra.isFocused())
             break
         case "show":
-            windowManager.show()
+            windowManagerExtra.show()
             result(true)
             break
         case "hide":
-            windowManager.hide()
+            windowManagerExtra.hide()
             result(true)
             break
         case "isVisible":
-            result(windowManager.isVisible())
+            result(windowManagerExtra.isVisible())
             break
         case "isMaximized":
-            result(windowManager.isMaximized())
+            result(windowManagerExtra.isMaximized())
             break
         case "maximize":
-            windowManager.maximize()
+            windowManagerExtra.maximize()
             result(true)
             break
         case "unmaximize":
-            windowManager.unmaximize()
+            windowManagerExtra.unmaximize()
             result(true)
             break
         case "isMinimized":
-            result(windowManager.isMinimized())
+            result(windowManagerExtra.isMinimized())
             break
         case "isMaximizable":
-            result(windowManager.isMaximizable())
+            result(windowManagerExtra.isMaximizable())
             break
         case "setMaximizable":
-            windowManager.setIsMaximizable(args)
+            windowManagerExtra.setIsMaximizable(args)
             result(true)
             break
         case "minimize":
-            windowManager.minimize()
+            windowManagerExtra.minimize()
             result(true)
             break
         case "restore":
-            windowManager.restore()
+            windowManagerExtra.restore()
             result(true)
             break
         case "isDockable":
-            result(windowManager.isDockable())
+            result(windowManagerExtra.isDockable())
             break
         case "isDocked":
-            result(windowManager.isDocked())
+            result(windowManagerExtra.isDocked())
             break
         case "dock":
-            windowManager.dock(args)
+            windowManagerExtra.dock(args)
             result(true)
             break
         case "undock":
-            windowManager.undock()
+            windowManagerExtra.undock()
             result(true)
             break
         case "isFullScreen":
-            result(windowManager.isFullScreen())
+            result(windowManagerExtra.isFullScreen())
             break
         case "setFullScreen":
-            windowManager.setFullScreen(args)
+            windowManagerExtra.setFullScreen(args)
             result(true)
             break
         case "setAspectRatio":
-            windowManager.setAspectRatio(args)
+            windowManagerExtra.setAspectRatio(args)
             result(true)
             break
         case "setBackgroundColor":
-            windowManager.setBackgroundColor(args)
+            windowManagerExtra.setBackgroundColor(args) 
             result(true)
             break
         case "getBounds":
-            result(windowManager.getBounds())
+            result(windowManagerExtra.getBounds())
             break
         case "setBounds":
-            windowManager.setBounds(args)
+            windowManagerExtra.setBounds(args)
             result(true)
             break
         case "setMinimumSize":
-            windowManager.setMinimumSize(args)
+            windowManagerExtra.setMinimumSize(args)
             result(true)
             break
         case "setMaximumSize":
-            windowManager.setMaximumSize(args)
+            windowManagerExtra.setMaximumSize(args)
             result(true)
             break
         case "isResizable":
-            result(windowManager.isResizable())
+            result(windowManagerExtra.isResizable())
             break
         case "setResizable":
-            windowManager.setResizable(args)
+            windowManagerExtra.setResizable(args)
             result(true)
             break
         case "isMovable":
-            result(windowManager.isMovable())
+            result(windowManagerExtra.isMovable())
             break
         case "setMovable":
-            windowManager.setMovable(args)
+            windowManagerExtra.setMovable(args)
             result(true)
             break
         case "isMinimizable":
-            result(windowManager.isMinimizable())
+            result(windowManagerExtra.isMinimizable())
             break
         case "setMinimizable":
-            windowManager.setMinimizable(args)
+            windowManagerExtra.setMinimizable(args)
             result(true)
             break
         case "isClosable":
-            result(windowManager.isClosable())
+            result(windowManagerExtra.isClosable())
             break
         case "setClosable":
-            windowManager.setClosable(args)
+            windowManagerExtra.setClosable(args)
             result(true)
             break
         case "isAlwaysOnTop":
-            result(windowManager.isAlwaysOnTop())
+            result(windowManagerExtra.isAlwaysOnTop())
             break
         case "setAlwaysOnTop":
-            windowManager.setAlwaysOnTop(args)
+            windowManagerExtra.setAlwaysOnTop(args)
             result(true)
             break
         case "getTitle":
-            result(windowManager.getTitle())
+            result(windowManagerExtra.getTitle())
             break
         case "setTitle":
-            windowManager.setTitle(args)
+            windowManagerExtra.setTitle(args)
             result(true)
             break
         case "setTitleBarStyle":
-            windowManager.setTitleBarStyle(args)
+            windowManagerExtra.setTitleBarStyle(args)
             result(true)
             break
         case "getTitleBarHeight":
-            result(windowManager.getTitleBarHeight())
+            result(windowManagerExtra.getTitleBarHeight())
             break
         case "isSkipTaskbar":
-            result(windowManager.isSkipTaskbar())
+            result(windowManagerExtra.isSkipTaskbar())
             break
         case "setSkipTaskbar":
-            windowManager.setSkipTaskbar(args)
+            windowManagerExtra.setSkipTaskbar(args)
             result(true)
             break
         case "setBadgeLabel":
-            windowManager.setBadgeLabel(args)
+            windowManagerExtra.setBadgeLabel(args)
             result(true)
             break
         case "setProgressBar":
-            windowManager.setProgressBar(args)
+            windowManagerExtra.setProgressBar(args)
             result(true)
             break
         case "isVisibleOnAllWorkspaces":
-            result(windowManager.isVisibleOnAllWorkspaces())
+            result(windowManagerExtra.isVisibleOnAllWorkspaces())
             break
         case "setVisibleOnAllWorkspaces":
-            windowManager.setVisibleOnAllWorkspaces(args)
+            windowManagerExtra.setVisibleOnAllWorkspaces(args)
             result(true)
             break
         case "hasShadow":
-            result(windowManager.hasShadow())
+            result(windowManagerExtra.hasShadow())
             break
         case "setHasShadow":
-            windowManager.setHasShadow(args)
+            windowManagerExtra.setHasShadow(args)
             result(true)
             break
         case "getOpacity":
-            result(windowManager.getOpacity())
+            result(windowManagerExtra.getOpacity())
             break
         case "setOpacity":
-            windowManager.setOpacity(args)
+            windowManagerExtra.setOpacity(args)
             result(true)
             break
         case "setBrightness":
-            windowManager.setBrightness(args)
+            windowManagerExtra.setBrightness(args)
             result(true)
             break
         case "setIgnoreMouseEvents":
-            windowManager.setIgnoreMouseEvents(args)
+            windowManagerExtra.setIgnoreMouseEvents(args)
             result(true)
             break
         case "startDragging":
-            windowManager.startDragging()
+            windowManagerExtra.startDragging()
             result(true)
             break
         default:

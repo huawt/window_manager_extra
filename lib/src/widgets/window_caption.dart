@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:window_manager_extra/src/widgets/drag_to_move_area.dart';
 import 'package:window_manager_extra/src/widgets/window_caption_button.dart';
 import 'package:window_manager_extra/src/window_listener.dart';
-import 'package:window_manager_extra/src/window_manager.dart';
+import 'package:window_manager_extra/src/window_manager_extra.dart';
 
 const double kWindowCaptionHeight = 32;
 

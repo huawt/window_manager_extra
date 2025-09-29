@@ -1,5 +1,5 @@
-#ifndef FLUTTER_PLUGIN_WINDOW_MANAGER_PLUGIN_H_
-#define FLUTTER_PLUGIN_WINDOW_MANAGER_PLUGIN_H_
+#ifndef FLUTTER_PLUGIN_WINDOW_MANAGER_EXTRA_PLUGIN_H_
+#define FLUTTER_PLUGIN_WINDOW_MANAGER_EXTRA_PLUGIN_H_
 
 #include <windows.h>
 
@@ -15,11 +15,11 @@
 extern "C" {
 #endif
 
-FLUTTER_PLUGIN_EXPORT void WindowManagerPluginRegisterWithRegistrar(
+FLUTTER_PLUGIN_EXPORT void WindowManagerExtraPluginRegisterWithRegistrar(
     FlutterDesktopPluginRegistrarRef registrar);
 
 #if defined(__cplusplus)
 }  // extern "C"
 #endif
 
-#endif  // FLUTTER_PLUGIN_WINDOW_MANAGER_PLUGIN_H_
+#endif  // FLUTTER_PLUGIN_WINDOW_MANAGER_EXTRA_PLUGIN_H_

@@ -4,17 +4,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "window_manager",
+    name: "window_manager_extra",
     platforms: [
         .macOS("10.15")
     ],
     products: [
-        .library(name: "window-manager", targets: ["window_manager"])
+        .library(name: "window-manager-extra", targets: ["window_manager_extra"])
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "window_manager",
+            name: "window_manager_extra",
             dependencies: [],
             resources: [
                 // If your plugin requires a privacy manifest, for example if it collects user

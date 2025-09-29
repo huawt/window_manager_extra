@@ -32,13 +32,13 @@ const kWindowEventUndocked = 'undocked';
 enum DockSide { left, right }
 
 // WindowManager
-class WindowManager {
-  WindowManager._() {
+class WindowManagerExtra {
+  WindowManagerExtra._() {
     _channel.setMethodCallHandler(_methodCallHandler);
   }
 
-  /// The shared instance of [WindowManager].
-  static final WindowManager instance = WindowManager._();
+  /// The shared instance of [WindowManagerExtra].
+  static final WindowManagerExtra instance = WindowManagerExtra._();
 
   final MethodChannel _channel = const MethodChannel('window_manager_extra');
 
@@ -758,4 +758,4 @@ class WindowManager {
   }
 }
 
-final windowManager = WindowManager.instance;
+final windowManager = WindowManagerExtra.instance;

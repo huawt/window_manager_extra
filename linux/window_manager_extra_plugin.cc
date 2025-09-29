@@ -1,13 +1,13 @@
-#include "include/window_manager/window_manager_plugin.h"
+#include "include/window_manager_extra/window_manager_extra_plugin.h"
 
 #include <flutter_linux/flutter_linux.h>
 #include <gtk/gtk.h>
 
 #define WINDOW_MANAGER_PLUGIN(obj)                                     \
-  (G_TYPE_CHECK_INSTANCE_CAST((obj), window_manager_plugin_get_type(), \
-                              WindowManagerPlugin))
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), window_manager_extra_plugin_get_type(), \
+                              WindowManagerExtraPlugin))
 
-struct _WindowManagerPlugin {
+struct _WindowManagerExtraPlugin {
   GObject parent_instance;
   FlPluginRegistrar* registrar;
   FlMethodChannel* channel;
@@ -26,10 +26,10 @@ struct _WindowManagerPlugin {
   GtkCssProvider* css_provider;
 };
 
-G_DEFINE_TYPE(WindowManagerPlugin, window_manager_plugin, g_object_get_type())
+G_DEFINE_TYPE(WindowManagerExtraPlugin, window_manager_extra_plugin, g_object_get_type())
 
 // Gets the window being controlled.
-GtkWindow* get_window(WindowManagerPlugin* self) {
+GtkWindow* get_window(WindowManagerExtraPlugin* self) {
   FlView* view = fl_plugin_registrar_get_view(self->registrar);
   if (view == nullptr)
     return nullptr;
@@ -37,11 +37,11 @@ GtkWindow* get_window(WindowManagerPlugin* self) {
   return GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(view)));
 }
 
-GdkWindow* get_gdk_window(WindowManagerPlugin* self) {
+GdkWindow* get_gdk_window(WindowManagerExtraPlugin* self) {
   return gtk_widget_get_window(GTK_WIDGET(get_window(self)));
 }
 
-static FlMethodResponse* set_as_frameless(WindowManagerPlugin* self,
+static FlMethodResponse* set_as_frameless(WindowManagerExtraPlugin* self,
                                           FlValue* args) {
   gtk_window_set_decorated(get_window(self), false);
 
@@ -49,25 +49,25 @@ static FlMethodResponse* set_as_frameless(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* destroy(WindowManagerPlugin* self) {
+static FlMethodResponse* destroy(WindowManagerExtraPlugin* self) {
   self->_is_prevent_close = false;
   gtk_window_close(get_window(self));
   return FL_METHOD_RESPONSE(
       fl_method_success_response_new(fl_value_new_bool(true)));
 }
 
-static FlMethodResponse* close(WindowManagerPlugin* self) {
+static FlMethodResponse* close(WindowManagerExtraPlugin* self) {
   gtk_window_close(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_prevent_close(WindowManagerPlugin* self) {
+static FlMethodResponse* is_prevent_close(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_bool(self->_is_prevent_close);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_prevent_close(WindowManagerPlugin* self,
+static FlMethodResponse* set_prevent_close(WindowManagerExtraPlugin* self,
                                            FlValue* args) {
   self->_is_prevent_close =
       fl_value_get_bool(fl_value_lookup_string(args, "isPreventClose"));
@@ -75,30 +75,30 @@ static FlMethodResponse* set_prevent_close(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* focus(WindowManagerPlugin* self) {
+static FlMethodResponse* focus(WindowManagerExtraPlugin* self) {
   gtk_window_present(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* blur(WindowManagerPlugin* self) {
+static FlMethodResponse* blur(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_focused(WindowManagerPlugin* self) {
+static FlMethodResponse* is_focused(WindowManagerExtraPlugin* self) {
   bool is_focused = gtk_window_is_active(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(is_focused);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* show(WindowManagerPlugin* self) {
+static FlMethodResponse* show(WindowManagerExtraPlugin* self) {
   gtk_widget_show(GTK_WIDGET(get_window(self)));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* hide(WindowManagerPlugin* self) {
+static FlMethodResponse* hide(WindowManagerExtraPlugin* self) {
   gint x, y, width, height;
   // store the bound of window before hide
   gtk_window_get_position(get_window(self), &x, &y);
@@ -111,79 +111,79 @@ static FlMethodResponse* hide(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_visible(WindowManagerPlugin* self) {
+static FlMethodResponse* is_visible(WindowManagerExtraPlugin* self) {
   bool is_visible = gtk_widget_is_visible(GTK_WIDGET(get_window(self)));
   g_autoptr(FlValue) result = fl_value_new_bool(is_visible);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_maximized(WindowManagerPlugin* self) {
+static FlMethodResponse* is_maximized(WindowManagerExtraPlugin* self) {
   bool is_maximized = gtk_window_is_maximized(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(is_maximized);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* maximize(WindowManagerPlugin* self) {
+static FlMethodResponse* maximize(WindowManagerExtraPlugin* self) {
   gtk_window_maximize(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* unmaximize(WindowManagerPlugin* self) {
+static FlMethodResponse* unmaximize(WindowManagerExtraPlugin* self) {
   gtk_window_unmaximize(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_minimized(WindowManagerPlugin* self) {
+static FlMethodResponse* is_minimized(WindowManagerExtraPlugin* self) {
   GdkWindowState state = gdk_window_get_state(get_gdk_window(self));
   g_autoptr(FlValue) result =
       fl_value_new_bool(state & GDK_WINDOW_STATE_ICONIFIED);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* minimize(WindowManagerPlugin* self) {
+static FlMethodResponse* minimize(WindowManagerExtraPlugin* self) {
   gtk_window_iconify(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_dockable(WindowManagerPlugin* self) {
+static FlMethodResponse* is_dockable(WindowManagerExtraPlugin* self) {
   bool is_docked = false;
   g_autoptr(FlValue) result = fl_value_new_bool(is_docked);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_docked(WindowManagerPlugin* self) {
+static FlMethodResponse* is_docked(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_null();
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* dock(WindowManagerPlugin* self) {
+static FlMethodResponse* dock(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* undock(WindowManagerPlugin* self) {
+static FlMethodResponse* undock(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* restore(WindowManagerPlugin* self) {
+static FlMethodResponse* restore(WindowManagerExtraPlugin* self) {
   gtk_window_deiconify(get_window(self));
   gtk_window_present(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_full_screen(WindowManagerPlugin* self) {
+static FlMethodResponse* is_full_screen(WindowManagerExtraPlugin* self) {
   GdkWindowState state = gdk_window_get_state(get_gdk_window(self));
   g_autoptr(FlValue) result =
       fl_value_new_bool(state & GDK_WINDOW_STATE_FULLSCREEN);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_full_screen(WindowManagerPlugin* self,
+static FlMethodResponse* set_full_screen(WindowManagerExtraPlugin* self,
                                          FlValue* args) {
   bool is_full_screen =
       fl_value_get_bool(fl_value_lookup_string(args, "isFullScreen"));
@@ -197,7 +197,7 @@ static FlMethodResponse* set_full_screen(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_aspect_ratio(WindowManagerPlugin* self,
+static FlMethodResponse* set_aspect_ratio(WindowManagerExtraPlugin* self,
                                           FlValue* args) {
   const float aspect_ratio =
       fl_value_get_float(fl_value_lookup_string(args, "aspectRatio"));
@@ -219,7 +219,7 @@ static FlMethodResponse* set_aspect_ratio(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_background_color(WindowManagerPlugin* self,
+static FlMethodResponse* set_background_color(WindowManagerExtraPlugin* self,
                                               FlValue* args) {
   GdkRGBA rgba;
   rgba.red = ((double)fl_value_get_int(
@@ -259,7 +259,7 @@ static FlMethodResponse* set_background_color(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* get_bounds(WindowManagerPlugin* self) {
+static FlMethodResponse* get_bounds(WindowManagerExtraPlugin* self) {
   gint x, y, width, height;
   gtk_window_get_position(get_window(self), &x, &y);
   gtk_window_get_size(get_window(self), &width, &height);
@@ -273,7 +273,7 @@ static FlMethodResponse* get_bounds(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result_data));
 }
 
-static FlMethodResponse* set_bounds(WindowManagerPlugin* self, FlValue* args) {
+static FlMethodResponse* set_bounds(WindowManagerExtraPlugin* self, FlValue* args) {
   FlValue* x = fl_value_lookup_string(args, "x");
   FlValue* y = fl_value_lookup_string(args, "y");
   if (x != nullptr && y != nullptr) {
@@ -293,7 +293,7 @@ static FlMethodResponse* set_bounds(WindowManagerPlugin* self, FlValue* args) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_minimum_size(WindowManagerPlugin* self,
+static FlMethodResponse* set_minimum_size(WindowManagerExtraPlugin* self,
                                           FlValue* args) {
   const float width = fl_value_get_float(fl_value_lookup_string(args, "width"));
   const float height =
@@ -316,7 +316,7 @@ static FlMethodResponse* set_minimum_size(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_maximum_size(WindowManagerPlugin* self,
+static FlMethodResponse* set_maximum_size(WindowManagerExtraPlugin* self,
                                           FlValue* args) {
   const float width = fl_value_get_float(fl_value_lookup_string(args, "width"));
   const float height =
@@ -345,13 +345,13 @@ static FlMethodResponse* set_maximum_size(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_resizable(WindowManagerPlugin* self) {
+static FlMethodResponse* is_resizable(WindowManagerExtraPlugin* self) {
   bool is_resizable = gtk_window_get_resizable(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(is_resizable);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_resizable(WindowManagerPlugin* self,
+static FlMethodResponse* set_resizable(WindowManagerExtraPlugin* self,
                                        FlValue* args) {
   bool is_resizable =
       fl_value_get_bool(fl_value_lookup_string(args, "isResizable"));
@@ -360,7 +360,7 @@ static FlMethodResponse* set_resizable(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_minimizable(WindowManagerPlugin* self) {
+static FlMethodResponse* is_minimizable(WindowManagerExtraPlugin* self) {
   GdkWindowState state = gdk_window_get_state(get_gdk_window(self));
   GdkWindowTypeHint type_hint = gtk_window_get_type_hint(get_window(self));
   g_autoptr(FlValue) result =
@@ -369,7 +369,7 @@ static FlMethodResponse* is_minimizable(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_minimizable(WindowManagerPlugin* self,
+static FlMethodResponse* set_minimizable(WindowManagerExtraPlugin* self,
                                          FlValue* args) {
   gboolean minimizable =
       fl_value_get_bool(fl_value_lookup_string(args, "isMinimizable"));
@@ -379,7 +379,7 @@ static FlMethodResponse* set_minimizable(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
 }
 
-static FlMethodResponse* is_maximizable(WindowManagerPlugin* self) {
+static FlMethodResponse* is_maximizable(WindowManagerExtraPlugin* self) {
   gboolean resizable = gtk_window_get_resizable(get_window(self));
   GdkWindowState state = gdk_window_get_state(get_gdk_window(self));
   GdkWindowTypeHint type_hint = gtk_window_get_type_hint(get_window(self));
@@ -389,7 +389,7 @@ static FlMethodResponse* is_maximizable(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_maximizable(WindowManagerPlugin* self,
+static FlMethodResponse* set_maximizable(WindowManagerExtraPlugin* self,
                                          FlValue* args) {
   gboolean maximizable =
       fl_value_get_bool(fl_value_lookup_string(args, "isMaximizable"));
@@ -399,13 +399,13 @@ static FlMethodResponse* set_maximizable(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(nullptr));
 }
 
-static FlMethodResponse* is_closable(WindowManagerPlugin* self) {
+static FlMethodResponse* is_closable(WindowManagerExtraPlugin* self) {
   bool is_closable = gtk_window_get_deletable(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(is_closable);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_closable(WindowManagerPlugin* self,
+static FlMethodResponse* set_closable(WindowManagerExtraPlugin* self,
                                       FlValue* args) {
   bool is_closable =
       fl_value_get_bool(fl_value_lookup_string(args, "isClosable"));
@@ -414,12 +414,12 @@ static FlMethodResponse* set_closable(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_always_on_top(WindowManagerPlugin* self) {
+static FlMethodResponse* is_always_on_top(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_bool(self->_is_always_on_top);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_always_on_top(WindowManagerPlugin* self,
+static FlMethodResponse* set_always_on_top(WindowManagerExtraPlugin* self,
                                            FlValue* args) {
   bool isAlwaysOnTop =
       fl_value_get_bool(fl_value_lookup_string(args, "isAlwaysOnTop"));
@@ -431,12 +431,12 @@ static FlMethodResponse* set_always_on_top(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_always_on_bottom(WindowManagerPlugin* self) {
+static FlMethodResponse* is_always_on_bottom(WindowManagerExtraPlugin* self) {
   g_autoptr(FlValue) result = fl_value_new_bool(self->_is_always_on_bottom);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_always_on_bottom(WindowManagerPlugin* self,
+static FlMethodResponse* set_always_on_bottom(WindowManagerExtraPlugin* self,
                                               FlValue* args) {
   bool isAlwaysOnBottom =
       fl_value_get_bool(fl_value_lookup_string(args, "isAlwaysOnBottom"));
@@ -448,14 +448,14 @@ static FlMethodResponse* set_always_on_bottom(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* get_title(WindowManagerPlugin* self) {
+static FlMethodResponse* get_title(WindowManagerExtraPlugin* self) {
   const gchar* title = gtk_window_get_title(get_window(self));
   g_autoptr(FlValue) result =
       fl_value_new_string(title != nullptr ? title : "");
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_title(WindowManagerPlugin* self, FlValue* args) {
+static FlMethodResponse* set_title(WindowManagerExtraPlugin* self, FlValue* args) {
   const gchar* title =
       fl_value_get_string(fl_value_lookup_string(args, "title"));
 
@@ -502,7 +502,7 @@ static GtkWidget* get_header_bar(GtkWindow* window) {
   return find_header_bar(GTK_WIDGET(window));
 }
 
-static FlMethodResponse* set_title_bar_style(WindowManagerPlugin* self,
+static FlMethodResponse* set_title_bar_style(WindowManagerExtraPlugin* self,
                                              FlValue* args) {
   const gchar* title_bar_style =
       fl_value_get_string(fl_value_lookup_string(args, "titleBarStyle"));
@@ -532,7 +532,7 @@ static FlMethodResponse* set_title_bar_style(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* get_title_bar_height(WindowManagerPlugin* self,
+static FlMethodResponse* get_title_bar_height(WindowManagerExtraPlugin* self,
                                               FlValue* args) {
   GtkWidget* widget = gtk_window_get_titlebar(get_window(self));
 
@@ -546,13 +546,13 @@ static FlMethodResponse* get_title_bar_height(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* is_skip_taskbar(WindowManagerPlugin* self) {
+static FlMethodResponse* is_skip_taskbar(WindowManagerExtraPlugin* self) {
   const gboolean skipping = gtk_window_get_skip_taskbar_hint(get_window(self));
   g_autoptr(FlValue) result = fl_value_new_bool(skipping);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_skip_taskbar(WindowManagerPlugin* self,
+static FlMethodResponse* set_skip_taskbar(WindowManagerExtraPlugin* self,
                                           FlValue* args) {
   bool isSkipTaskbar =
       fl_value_get_bool(fl_value_lookup_string(args, "isSkipTaskbar"));
@@ -561,7 +561,7 @@ static FlMethodResponse* set_skip_taskbar(WindowManagerPlugin* self,
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_icon(WindowManagerPlugin* self, FlValue* args) {
+static FlMethodResponse* set_icon(WindowManagerExtraPlugin* self, FlValue* args) {
   const gchar* file_name =
       fl_value_get_string(fl_value_lookup_string(args, "iconPath"));
   const gboolean gtk_result =
@@ -570,20 +570,20 @@ static FlMethodResponse* set_icon(WindowManagerPlugin* self, FlValue* args) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* get_opacity(WindowManagerPlugin* self) {
+static FlMethodResponse* get_opacity(WindowManagerExtraPlugin* self) {
   gdouble opacity = gtk_widget_get_opacity(GTK_WIDGET(get_window(self)));
   g_autoptr(FlValue) result = fl_value_new_float(opacity);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_opacity(WindowManagerPlugin* self, FlValue* args) {
+static FlMethodResponse* set_opacity(WindowManagerExtraPlugin* self, FlValue* args) {
   gdouble opacity = fl_value_get_float(fl_value_lookup_string(args, "opacity"));
   gtk_widget_set_opacity(GTK_WIDGET(get_window(self)), opacity);
   g_autoptr(FlValue) result = fl_value_new_bool(true);
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* pop_up_window_menu(WindowManagerPlugin* self) {
+static FlMethodResponse* pop_up_window_menu(WindowManagerExtraPlugin* self) {
   GdkWindow* window = get_gdk_window(self);
   GdkDisplay* display = gdk_display_get_default();
   GdkSeat* seat = gdk_display_get_default_seat(display);
@@ -608,7 +608,7 @@ static FlMethodResponse* pop_up_window_menu(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* start_dragging(WindowManagerPlugin* self) {
+static FlMethodResponse* start_dragging(WindowManagerExtraPlugin* self) {
   auto window = get_window(self);
   auto screen = gtk_window_get_screen(window);
   auto display = gdk_screen_get_display(screen);
@@ -633,7 +633,7 @@ static void gtk_container_children_callback(GtkWidget* widget,
   *children = g_list_prepend(*children, widget);
 }
 
-static void find_event_box(WindowManagerPlugin* plugin, GtkWidget* widget) {
+static void find_event_box(WindowManagerExtraPlugin* plugin, GtkWidget* widget) {
   GList* children = NULL;
   GtkWidget* current_child;
   gtk_container_forall(GTK_CONTAINER(widget), gtk_container_children_callback,
@@ -647,7 +647,7 @@ static void find_event_box(WindowManagerPlugin* plugin, GtkWidget* widget) {
   }
 }
 
-static FlMethodResponse* start_resizing(WindowManagerPlugin* self,
+static FlMethodResponse* start_resizing(WindowManagerExtraPlugin* self,
                                         FlValue* args) {
   const gchar* resize_edge =
       fl_value_get_string(fl_value_lookup_string(args, "resizeEdge"));
@@ -729,7 +729,7 @@ static const gchar* gdk_grab_status_message(GdkGrabStatus status) {
   }
 }
 
-static GdkGrabStatus gdk_grab_keyboard(WindowManagerPlugin* self) {
+static GdkGrabStatus gdk_grab_keyboard(WindowManagerExtraPlugin* self) {
   g_return_val_if_fail(self->grab_pointer == nullptr, GDK_GRAB_FAILED);
 
   auto window = get_window(self);
@@ -751,7 +751,7 @@ static GdkGrabStatus gdk_grab_keyboard(WindowManagerPlugin* self) {
   return status;
 }
 
-static FlMethodResponse* grab_keyboard(WindowManagerPlugin* self) {
+static FlMethodResponse* grab_keyboard(WindowManagerExtraPlugin* self) {
   GdkGrabStatus status = gdk_grab_keyboard(self);
 
   if (status != GDK_GRAB_SUCCESS) {
@@ -764,7 +764,7 @@ static FlMethodResponse* grab_keyboard(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* ungrab_keyboard(WindowManagerPlugin* self) {
+static FlMethodResponse* ungrab_keyboard(WindowManagerExtraPlugin* self) {
   if (self->grab_pointer != nullptr) {
     gdk_seat_ungrab(gdk_device_get_seat(self->grab_pointer));
     self->grab_pointer = nullptr;
@@ -774,7 +774,7 @@ static FlMethodResponse* ungrab_keyboard(WindowManagerPlugin* self) {
   return FL_METHOD_RESPONSE(fl_method_success_response_new(result));
 }
 
-static FlMethodResponse* set_brightness(WindowManagerPlugin* self,
+static FlMethodResponse* set_brightness(WindowManagerExtraPlugin* self,
                                         FlValue* args) {
   const gchar* brightness =
       fl_value_get_string(fl_value_lookup_string(args, "brightness"));
@@ -804,7 +804,7 @@ static FlMethodResponse* set_brightness(WindowManagerPlugin* self,
 
 // Called when a method call is received from Flutter.
 static void window_manager_plugin_handle_method_call(
-    WindowManagerPlugin* self,
+    WindowManagerExtraPlugin* self,
     FlMethodCall* method_call) {
   g_autoptr(FlMethodResponse) response = nullptr;
 
@@ -937,7 +937,7 @@ static void window_manager_plugin_handle_method_call(
 }
 
 static void window_manager_plugin_dispose(GObject* object) {
-  WindowManagerPlugin* self = WINDOW_MANAGER_PLUGIN(object);
+  WindowManagerExtraPlugin* self = WINDOW_MANAGER_PLUGIN(object);
   g_clear_object(&self->css_provider);
   g_free(self->title_bar_style_);
   G_OBJECT_CLASS(window_manager_plugin_parent_class)->dispose(object);
@@ -947,16 +947,16 @@ static void window_manager_plugin_class_init(WindowManagerPluginClass* klass) {
   G_OBJECT_CLASS(klass)->dispose = window_manager_plugin_dispose;
 }
 
-static void window_manager_plugin_init(WindowManagerPlugin* self) {}
+static void window_manager_plugin_init(WindowManagerExtraPlugin* self) {}
 
 static void method_call_cb(FlMethodChannel* channel,
                            FlMethodCall* method_call,
                            gpointer user_data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(user_data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(user_data);
   window_manager_plugin_handle_method_call(plugin, method_call);
 }
 
-void _emit_event(WindowManagerPlugin* plugin, const char* event_name) {
+void _emit_event(WindowManagerExtraPlugin* plugin, const char* event_name) {
   g_autoptr(FlValue) result_data = fl_value_new_map();
   fl_value_set_string_take(result_data, "eventName",
                            fl_value_new_string(event_name));
@@ -965,43 +965,43 @@ void _emit_event(WindowManagerPlugin* plugin, const char* event_name) {
 }
 
 gboolean on_window_close(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "close");
   return plugin->_is_prevent_close;
 }
 
 gboolean on_window_focus(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "focus");
   return false;
 }
 
 gboolean on_window_blur(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "blur");
   return false;
 }
 
 gboolean on_window_show(GtkWidget* widget, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "show");
   return false;
 }
 
 gboolean on_window_hide(GtkWidget* widget, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "hide");
   return false;
 }
 
 gboolean on_window_resize(GtkWidget* widget, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "resize");
   return false;
 }
 
 gboolean on_window_move(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   _emit_event(plugin, "move");
   return false;
 }
@@ -1009,7 +1009,7 @@ gboolean on_window_move(GtkWidget* widget, GdkEvent* event, gpointer data) {
 gboolean on_window_state_change(GtkWidget* widget,
                                 GdkEventWindowState* event,
                                 gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED) {
     if (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) {
       _emit_event(plugin, "maximize");
@@ -1034,7 +1034,7 @@ gboolean on_window_state_change(GtkWidget* widget,
   return false;
 }
 
-void emit_button_release(WindowManagerPlugin* self) {
+void emit_button_release(WindowManagerExtraPlugin* self) {
   auto newEvent = (GdkEventButton*)gdk_event_new(GDK_BUTTON_RELEASE);
   newEvent->x = self->_event_button.x;
   newEvent->y = self->_event_button.y;
@@ -1049,7 +1049,7 @@ void emit_button_release(WindowManagerPlugin* self) {
 
 gboolean on_event_after(GtkWidget* text_view,
                         GdkEvent* event,
-                        WindowManagerPlugin* self) {
+                        WindowManagerExtraPlugin* self) {
   if (event->type == GDK_ENTER_NOTIFY) {
     if (nullptr == self->_event_box) {
       return FALSE;
@@ -1070,7 +1070,7 @@ gboolean on_mouse_press(GSignalInvocationHint* ihint,
                         guint n_param_values,
                         const GValue* param_values,
                         gpointer data) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
   GdkEventButton* event_button =
       (GdkEventButton*)(g_value_get_boxed(param_values + 1));
 
@@ -1083,7 +1083,7 @@ gboolean on_mouse_press(GSignalInvocationHint* ihint,
 
 void window_manager_plugin_register_with_registrar(
     FlPluginRegistrar* registrar) {
-  WindowManagerPlugin* plugin = WINDOW_MANAGER_PLUGIN(
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(
       g_object_new(window_manager_plugin_get_type(), nullptr));
 
   plugin->registrar = FL_PLUGIN_REGISTRAR(g_object_ref(registrar));
@@ -1128,7 +1128,7 @@ void window_manager_plugin_register_with_registrar(
   g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
   plugin->channel =
       fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
-                            "window_manager", FL_METHOD_CODEC(codec));
+                            "window_manager_extra", FL_METHOD_CODEC(codec));
   fl_method_channel_set_method_call_handler(
       plugin->channel, method_call_cb, g_object_ref(plugin), g_object_unref);
 

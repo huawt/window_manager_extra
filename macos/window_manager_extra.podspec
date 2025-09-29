@@ -14,7 +14,7 @@ A new Flutter plugin project.
   s.author           = { 'LiJianying' => 'lijy91@foxmail.com' }
 
   s.source           = { :path => '.' }
-  s.source_files = 'window_manager/Sources/window_manager/**/*'
+  s.source_files = 'window_manager_extra/Sources/window_manager_extra/**/*'
 
   # If your plugin requires a privacy manifest, for example if it collects user
   # data, update the PrivacyInfo.xcprivacy file to describe your plugin's

@@ -51,7 +51,7 @@ extension NSRect {
     }
 }
 
-public class WindowManager: NSObject, NSWindowDelegate {
+public class WindowManagerExtra: NSObject, NSWindowDelegate {
     public var onEvent:((String) -> Void)?
     
     private var _mainWindow: NSWindow?
