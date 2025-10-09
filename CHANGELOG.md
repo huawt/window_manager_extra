@@ -1,3 +1,7 @@
+### 0.5.2
+
+* fix: same bug
+
 ### 0.5.1
 
 * fix: same bug

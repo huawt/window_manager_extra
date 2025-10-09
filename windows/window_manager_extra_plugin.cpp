@@ -95,12 +95,12 @@ class WindowManagerExtraPlugin : public flutter::Plugin {
 // static
 void WindowManagerExtraPlugin::RegisterWithRegistrar(
     flutter::PluginRegistrarWindows* registrar) {
-  auto plugin = std::make_unique<WindowManagerPlugin>(registrar);
+  auto plugin = std::make_unique<WindowManagerExtraPlugin>(registrar);
 
   registrar->AddPlugin(std::move(plugin));
 }
 
-WindowManagerExtraPlugin::WindowManagerPlugin(
+WindowManagerExtraPlugin::WindowManagerExtraPlugin(
     flutter::PluginRegistrarWindows* registrar)
     : registrar(registrar) {
   window_manager_extra = new WindowManagerExtra();
