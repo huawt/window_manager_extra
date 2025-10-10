@@ -57,14 +57,14 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  window_manager: ^0.5.0
+  window_manager_extra: ^0.5.2
 ```
 
 ### Usage
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:window_manager_extra/window_manager_extra.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

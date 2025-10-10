@@ -589,7 +589,7 @@ void WindowManagerExtraPlugin::HandleMethodCall(
 
 }  // namespace
 
-void WindowManagerPluginRegisterWithRegistrar(
+void WindowManagerExtraPluginRegisterWithRegistrar(
     FlutterDesktopPluginRegistrarRef registrar) {
   WindowManagerExtraPlugin::RegisterWithRegistrar(
       flutter::PluginRegistrarManager::GetInstance()

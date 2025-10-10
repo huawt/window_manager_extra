@@ -1,7 +1,8 @@
 name: window_manager_extra
 description: This plugin allows Flutter desktop apps to resizing and repositioning the window.
-version: 0.5.2
+version: 0.5.3
 homepage: https://github.com/huawt/window_manager_extra
+publish_to: https://pub.dartlang.org
 
 platforms:
   linux:

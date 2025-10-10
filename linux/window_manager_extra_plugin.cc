@@ -3,7 +3,7 @@
 #include <flutter_linux/flutter_linux.h>
 #include <gtk/gtk.h>
 
-#define WINDOW_MANAGER_PLUGIN(obj)                                     \
+#define WINDOW_MANAGER_EXTRA_PLUGIN(obj)                                     \
   (G_TYPE_CHECK_INSTANCE_CAST((obj), window_manager_extra_plugin_get_type(), \
                               WindowManagerExtraPlugin))
 
@@ -937,13 +937,13 @@ static void window_manager_plugin_handle_method_call(
 }
 
 static void window_manager_plugin_dispose(GObject* object) {
-  WindowManagerExtraPlugin* self = WINDOW_MANAGER_PLUGIN(object);
+  WindowManagerExtraPlugin* self = WINDOW_MANAGER_EXTRA_PLUGIN(object);
   g_clear_object(&self->css_provider);
   g_free(self->title_bar_style_);
   G_OBJECT_CLASS(window_manager_plugin_parent_class)->dispose(object);
 }
 
-static void window_manager_plugin_class_init(WindowManagerPluginClass* klass) {
+static void window_manager_plugin_class_init(WindowManagerExtraPluginClass* klass) {
   G_OBJECT_CLASS(klass)->dispose = window_manager_plugin_dispose;
 }
 
@@ -952,7 +952,7 @@ static void window_manager_plugin_init(WindowManagerExtraPlugin* self) {}
 static void method_call_cb(FlMethodChannel* channel,
                            FlMethodCall* method_call,
                            gpointer user_data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(user_data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(user_data);
   window_manager_plugin_handle_method_call(plugin, method_call);
 }
 
@@ -965,43 +965,43 @@ void _emit_event(WindowManagerExtraPlugin* plugin, const char* event_name) {
 }
 
 gboolean on_window_close(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   _emit_event(plugin, "close");
   return plugin->_is_prevent_close;
 }
 
 gboolean on_window_focus(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   _emit_event(plugin, "focus");
   return false;
 }
 
 gboolean on_window_blur(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   _emit_event(plugin, "blur");
   return false;
 }
 
 gboolean on_window_show(GtkWidget* widget, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   _emit_event(plugin, "show");
   return false;
 }
 
 gboolean on_window_hide(GtkWidget* widget, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data); 
   _emit_event(plugin, "hide");
   return false;
 }
 
 gboolean on_window_resize(GtkWidget* widget, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   _emit_event(plugin, "resize");
   return false;
 }
 
 gboolean on_window_move(GtkWidget* widget, GdkEvent* event, gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   _emit_event(plugin, "move");
   return false;
 }
@@ -1009,7 +1009,7 @@ gboolean on_window_move(GtkWidget* widget, GdkEvent* event, gpointer data) {
 gboolean on_window_state_change(GtkWidget* widget,
                                 GdkEventWindowState* event,
                                 gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED) {
     if (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) {
       _emit_event(plugin, "maximize");
@@ -1070,7 +1070,7 @@ gboolean on_mouse_press(GSignalInvocationHint* ihint,
                         guint n_param_values,
                         const GValue* param_values,
                         gpointer data) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(data);
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(data);
   GdkEventButton* event_button =
       (GdkEventButton*)(g_value_get_boxed(param_values + 1));
 
@@ -1083,7 +1083,7 @@ gboolean on_mouse_press(GSignalInvocationHint* ihint,
 
 void window_manager_plugin_register_with_registrar(
     FlPluginRegistrar* registrar) {
-  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_PLUGIN(
+  WindowManagerExtraPlugin* plugin = WINDOW_MANAGER_EXTRA_PLUGIN(
       g_object_new(window_manager_plugin_get_type(), nullptr));
 
   plugin->registrar = FL_PLUGIN_REGISTRAR(g_object_ref(registrar));
